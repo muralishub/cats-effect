@@ -124,7 +124,7 @@ object IO8_ConcurrencyAndCancellation extends App{
 
 
   // a race can be derived from racePair
-  def race[A, B](lh: IO[A], rh: IO[B])
+  def race1[A, B](lh: IO[A], rh: IO[B])
                 (implicit cs: ContextShift[IO]): IO[Either[A, B]] = {
 
     IO.racePair(lh, rh).flatMap {
@@ -136,11 +136,12 @@ object IO8_ConcurrencyAndCancellation extends App{
 
 
     def timeoutTo[A](fa: IO[A], after: FiniteDuration, fallback: IO[A])(implicit timer: Timer[IO], cs: ContextShift[IO]): IO[A] = {
-      IO.race(fa, timer.sleep(after)).flatMap{
+      IO.race(fa, timer.sleep(after)).flatMap {
         case Left(a) => IO.pure(a)
         case Right(_) => fallback
 
       }
+    }
 
       def timeout[A](fa: IO[A], after: FiniteDuration)(implicit timer: Timer[IO], cs: ContextShift[IO]): IO[A] = {
         val error = new CancellationException(after.toString())
@@ -149,7 +150,8 @@ object IO8_ConcurrencyAndCancellation extends App{
 
 
 
-    }
+
+
 
 
 

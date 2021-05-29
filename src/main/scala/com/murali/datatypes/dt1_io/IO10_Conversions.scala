@@ -5,7 +5,7 @@ import cats.effect.{ContextShift, IO}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class IO10_Conversions {
+object IO10_Conversions {
 
   // converting scala Future and an Either into IO
 
